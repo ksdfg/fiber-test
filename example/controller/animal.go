@@ -1,7 +1,6 @@
 package controller
 
 import (
-	"encoding/json"
 	"log"
 	"net/http"
 
@@ -23,14 +22,7 @@ func (c Controller) GetAnimal(ctx *fiber.Ctx) error {
 		return ctx.Status(http.StatusNotFound).SendString("I don't know what sound this animal makes ;-;")
 	}
 
-	response := schemas.Animal{Name: query.Name, Sound: noise}
-	respBody, err := json.Marshal(response)
-	if err != nil {
-		log.Println(err)
-		return ctx.SendStatus(http.StatusInternalServerError)
-	}
-
-	return ctx.Status(http.StatusOK).Send(respBody)
+	return ctx.Status(http.StatusOK).JSON(schemas.Animal{Name: query.Name, Sound: noise})
 }
 
 func (c Controller) AddAnimal(ctx *fiber.Ctx) error {
@@ -43,11 +35,5 @@ func (c Controller) AddAnimal(ctx *fiber.Ctx) error {
 
 	c.Data[animal.Name] = animal.Sound
 
-	respBody, err := json.Marshal(animal)
-	if err != nil {
-		log.Println(err)
-		return ctx.SendStatus(http.StatusInternalServerError)
-	}
-
-	return ctx.Status(http.StatusCreated).Send(respBody)
+	return ctx.Status(http.StatusCreated).JSON(animal)
 }
