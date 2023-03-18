@@ -3,24 +3,17 @@ package main
 import (
 	"log"
 
-	"github.com/gofiber/fiber/v2"
-	"github.com/gofiber/fiber/v2/middleware/logger"
-
-	"github.com/ksdfg/fiber-test/example/controller"
+	"github.com/ksdfg/fiber-test/example/api"
 )
 
 func main() {
-	c := controller.Controller{}
+	controller := api.Controller{}
 
-	c.Data = make(map[string]string)
-	c.Data["cat"] = "meow"
-	c.Data["dog"] = "woof"
-	c.Data["cow"] = "moo"
+	controller.Data = make(map[string]string)
+	controller.Data["cat"] = "meow"
+	controller.Data["dog"] = "woof"
+	controller.Data["cow"] = "moo"
 
-	app := fiber.New()
-	app.Use(logger.New())
-
-	controller.RegisterRoutes(app.Group("/api/v1"), c)
-
+	app := api.GenApp(controller)
 	log.Fatalln(app.Listen(":8000"))
 }

@@ -1,4 +1,4 @@
-package controller
+package api
 
 import (
 	"log"
@@ -35,5 +35,5 @@ func (c Controller) AddAnimal(ctx *fiber.Ctx) error {
 
 	c.Data[animal.Name] = animal.Sound
 
-	return ctx.Status(http.StatusCreated).JSON(animal)
+	return ctx.SendStatus(http.StatusCreated)
 }

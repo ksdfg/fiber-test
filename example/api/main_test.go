@@ -1,4 +1,4 @@
-package controller
+package api
 
 import (
 	"log"
@@ -15,15 +15,17 @@ var suite fibertest.Suite
 func TestMain(m *testing.M) {
 	log.SetFlags(log.LstdFlags | log.Lshortfile)
 
+	// Initialize test suite
 	suite = &test.Suite{}
-
 	err := suite.Setup()
 	if err != nil {
 		panic(err)
 	}
 
+	// Run all tests
 	code := m.Run()
 
+	// Teardown test suite
 	err = suite.Teardown()
 	if err != nil {
 		panic(err)
